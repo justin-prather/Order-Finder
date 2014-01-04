@@ -1,9 +1,11 @@
 from Tkinter import *
 from datetime import datetime, timedelta
+from tkFileDialog import askopenfilename, askdirectory
 
 color2 = '#9A9A9A'
 color= '#EF6C6C'
 window_title = 'Order Finder'
+default_fp = '~/Desktop'
 
 def SetDate_Today():
     d=datetime.today()
@@ -44,9 +46,13 @@ def Clear_Params():
     List_Riders.delete(0, END)
     List_Horses.delete(0, END)
 
+def change_fp():
+    fp = askdirectory()
+    FP_Label.config( text=fp)
+
 master = Tk()
 
-dimensions = '700x450'
+dimensions = '700x500'
 
 master.geometry( dimensions )
 master.config( background=color )
@@ -60,6 +66,9 @@ Main_Label.pack( side='top' )
 '''Frames'''
 Top_Container = Frame( master, height=20, bg=color2, relief=RAISED, bd=2 )
 Top_Container.pack( side='top', fill=X, padx=10, pady=5 )
+
+FP_Container = Frame( master, bg=color2, relief=RAISED, bd=2 )
+FP_Container.pack( side='top', fill=X, padx=10, pady=5 )
 
 Second_Container = Frame( master, height=20, bg=color2, relief=RAISED, bd=2 )
 Second_Container.pack( side='top', fill=X, padx=10, pady=5 )
@@ -88,6 +97,12 @@ Rider_Label.pack(padx=5, pady=5)
 
 Horse_Label = Label( Horse_Container, text='Horses:', bg=color2)
 Horse_Label.pack(padx=5, pady=5)
+
+Directory = Label( FP_Container, text='Directory: ', bg=color2)
+Directory.pack(side='left', padx=5, pady=5)
+
+FP_Label = Label( FP_Container, text=default_fp, bg=color2)
+FP_Label.pack(side='left', padx=5, pady=5)
 
 '''Input fields'''
 Input_Rider = Entry( Third_Container, highlightbackground=color2)
@@ -163,6 +178,10 @@ Remove_Rider.pack(padx=5, pady=5)
 
 Remove_Horse = Button(Horse_Container, highlightbackground=color2, text='Remove', command=lambda lb=List_Horses: List_Horses.delete(ANCHOR))
 Remove_Horse.pack(padx=5, pady=5)
+
+Change = Button( FP_Container, highlightbackground=color2, text='Change', command=change_fp)
+Change.pack(side='left', padx=5, pady=5)
+
 
 mainloop()
 # def callback():
