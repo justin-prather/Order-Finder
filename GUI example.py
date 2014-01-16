@@ -1,9 +1,12 @@
 from Tkinter import *
 from datetime import datetime, timedelta
 from tkFileDialog import askopenfilename, askdirectory
+from Order_Parser import Order_Parser
+from Download_Orders_Results import PDF_Downloader
+import sys
 
-color2 = '#9A9A9A'
-color= '#EF6C6C'
+color2 = '#43464B'
+color= '#8A0707'
 window_title = 'Order Finder'
 default_fp = '~/Desktop'
 
@@ -20,7 +23,42 @@ def SetDate_Tomorrow():
     day.set(d.strftime('%d'))
 
 def Execute_Search():
-    print 'Searching!'
+    files = []
+
+    downloader = PDF_Downloader()
+
+    downloader.gen_tournament_link( Tournaments.get(Tournament.get()), datetime.strptime( str(year.get() + month.get() 
+        + day.get()), '%Y%B%d').date() )
+
+    downloader.filePath = FP_Label['text']+'/'
+
+    downloader.get_PDF_links()
+
+    files = downloader.download_orders()
+
+    for name in get_items( RiderVar.get() ):
+        print 'searching for: ' + name
+        for order in files:
+            text = ''
+            Order = Order_Parser( order )
+            Order.Parse_PDF()
+            Order.Order_Content()
+            text = Order.get_order_by_rider( name )
+            if not text == "":
+                print True
+                print Order.info.get('Class')
+                print Order.info.get('Date_Time')
+                print Order.info.get('Ring_Table')
+                print text
+
+def get_items( string_list ):
+    L = []
+    while '\'' in string_list:
+        start = string_list.index('\'')+1
+        end = string_list.index('\'', start )
+        L.append(string_list[start:end])
+        string_list = string_list[end+1:]
+    return L
 
 def AddRider():
     List_Riders.insert(END, Input_Rider.get())
@@ -120,9 +158,13 @@ Input_Horse.pack(side='right', padx=5)
 '''Dropdown menu'''
 Year = [ '2012', '2013', '2014' ]
 Months = ['January', 'Febuary', 'March', 'April', 'May','June', 'July', 'August', 'September', 'October', 'November', 'December']
-Days = [ 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday' ]
+Days = [ '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20',
+    '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31' ]
 
-Tournaments = { 'National':None, 'Contintal':None, 'Canada One':None, 'North American':None, 'PanAmerican':None}
+Tournaments = { 'Febuary Classic I':42, 'Febuary Classic II':13, 'Winter Farewell':14, 
+    'Spring Welcome':20, 'April Classic':43, 'May Classic':19, 'National':23, 'Continental':25,
+    'Canada One':26, 'North American':27, 'Pan American':41, 'Champions\' Welcome':40, 'Masters':29,
+    'Harvest Classic':31, 'Oktoberfest':32}
 
 day = StringVar()
 month = StringVar()
@@ -151,7 +193,8 @@ Tournament_DD.config(bg=color2, command=None)
 Tournament_DD.pack(side='left', padx=5 )
 
 '''Listboxes'''
-List_Riders = Listbox(Rider_Container)
+RiderVar = StringVar()
+List_Riders = Listbox(Rider_Container, listvariable=RiderVar)
 List_Riders.pack( padx=5, pady=5)
 
 List_Horses = Listbox(Horse_Container)
@@ -184,24 +227,4 @@ Change.pack(side='left', padx=5, pady=5)
 
 
 mainloop()
-# def callback():
-#     print e.get()
 
-# def print_it(event):
-#     print var.get()
-
-# e = Entry(master, highlightbackground=color)
-# e.grid(row=0, column=0)
-
-# b = Button(master, text="Print", command=callback, highlightbackground=color)
-# b.grid(row=0, column=1)
-
-# var = StringVar()
-# var.set('Month')
-
-# opm = OptionMenu( master, var, 'January', 'Febuary', 'March', 'April', 'May',
-#     'June', 'July', 'August', 'September', 'October', 'November', 'December', command=print_it )
-# opm.config(bg=color)
-# opm.grid(row=3, column=0)
-
-# mainloop()

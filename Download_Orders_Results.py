@@ -33,7 +33,7 @@ class PDF_Downloader():
 		files = []
 		for i in self.links[ 'Order of Go' ]:
 			print 'downloading: ' + i 
-			fileName = 'Orders/Order_Class_' + i[61:-4] + '.pdf'
+			fileName = self.filePath + i[61:-4] + '.pdf'
 			urllib.urlretrieve( i, fileName )
 			files.append(fileName)
 		return files
