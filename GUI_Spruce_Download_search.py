@@ -33,19 +33,38 @@ def Execute_Search():
     downloader.filePath = FP_Label['text']+'/'
 
     downloader.get_PDF_links()
-
-    files = downloader.download_orders()
-
-    for name in get_items( RiderVar.get() ):
-        print 'searching for: ' + name
-        for order in files:
+    try:
+        files = downloader.download_orders()
+    except IOError:
+        print 'Enter a valid file path'
+        return
+    for order in files:
+    # for name in get_items( RiderVar.get() ):
+        # for order in files:
+        Order = Order_Parser( order )
+        Order.Parse_PDF()
+        Order.Order_Content()
+        for name in get_items( RiderVar.get() ):
+            # print 'searching for: ' + name
             text = ''
-            Order = Order_Parser( order )
-            Order.Parse_PDF()
-            Order.Order_Content()
-            text = Order.get_order_by_rider( name )
+            try:
+                text = Order.get_order_by_rider( name )
+            except IndexError:
+                print 'Possible error searching ' + order + ' for ' + name
             if not text == "":
-                print True
+                print Order.info.get('Class')
+                print Order.info.get('Date_Time')
+                print Order.info.get('Ring_Table')
+                print text
+
+        for name in get_items( HorseVar.get() ):
+            # print 'searching for: ' + name
+            text = ''
+            try:
+                text = Order.get_order_by_horse( name )
+            except IndexError:
+                print 'Possible error searching ' + order + ' for ' + name
+            if not text == "":
                 print Order.info.get('Class')
                 print Order.info.get('Date_Time')
                 print Order.info.get('Ring_Table')
@@ -157,7 +176,7 @@ Input_Horse.pack(side='right', padx=5)
 
 '''Dropdown menu'''
 Year = [ '2012', '2013', '2014' ]
-Months = ['January', 'Febuary', 'March', 'April', 'May','June', 'July', 'August', 'September', 'October', 'November', 'December']
+Months = ['January', 'February', 'March', 'April', 'May','June', 'July', 'August', 'September', 'October', 'November', 'December']
 Days = [ '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20',
     '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31' ]
 
@@ -197,7 +216,8 @@ RiderVar = StringVar()
 List_Riders = Listbox(Rider_Container, listvariable=RiderVar)
 List_Riders.pack( padx=5, pady=5)
 
-List_Horses = Listbox(Horse_Container)
+HorseVar = StringVar()
+List_Horses = Listbox(Horse_Container, listvariable=HorseVar)
 List_Horses.pack( padx=5, pady=5)
 
 '''Buttons'''
