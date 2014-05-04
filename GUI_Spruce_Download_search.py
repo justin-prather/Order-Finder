@@ -42,8 +42,8 @@ def Execute_Search():
     # for name in get_items( RiderVar.get() ):
         # for order in files:
         Order = Order_Parser( order )
-        Order.Parse_PDF()
-        Order.Order_Content()
+        print Order.Parse_PDF()
+        print Order.Order_Content()
         for name in get_items( RiderVar.get() ):
             # print 'searching for: ' + name
             text = ''

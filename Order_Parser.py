@@ -97,10 +97,10 @@ class Order_Parser():
 				
 				if next == '\n':
 					continue
-				if next == 'HORSE\n':
+				elif next == 'HORSE\n':
 					active = self.info['Horse']
 					skip = True
-				elif next == 'RIDER (NATIONALITY)\n':
+				elif 'RIDER (NATIONALITY)' in next:
 					active = self.info[ 'Rider' ]
 					skip = True
 				elif (next == 'Horse \n') or (next == 'Order \n') or (next == 'Horse\n') or (next == 'Order\n') or (next == '#\n') or (next == 'of\n'):
@@ -125,6 +125,7 @@ class Order_Parser():
 			for i in range(1, 13):
 				try:
 					if any( num in self.info['Rider'][Len - i] for num in prefix ):
+						print self.info['Rider'][Len-1]
 						self.info['Rider'].pop( Len - i )
 				except IndexError:
 					pass
@@ -173,7 +174,8 @@ class Order_Parser():
 				orders.append(index)
 
 		for i in orders:
-			temp += str(i+1) + '. ' + self.info['Rider'][i][:-7] + ' on ' +  self.info['Horse'][i] + '\n'
+			#temp += str(i+1) + '. ' + self.info['Rider'][i][:-7] + ' on ' +  self.info['Horse'][i] + '\n'
+			temp += str(i+1) + '. ' +self.info['Horse'][i] + '\n'
 
 		return temp
 
