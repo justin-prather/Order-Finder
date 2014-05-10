@@ -8,15 +8,16 @@ app = Flask(__name__)
 
 @app.route('/')
 def my_form():
-    return render_template("forms.html")
+    return render_template("index.html")
 
 @app.route('/', methods=['POST'])
 def my_form_post():
 
-    text = request.form['text']
-    info['first'] = text.upper()
+    # text = request.form['text']
+    # info['first'] = text.upper()
 
-    print info
+    print request.form
+    
     return 'I hate to say it, but you need to get out more...'
 
 if __name__ == '__main__':

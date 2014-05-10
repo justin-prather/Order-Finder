@@ -4,9 +4,38 @@
 	<center>
 		<h1>Order of Go Finder</h1>
 		<div class="container">
-			<form>	
-				<div class="top">
+			<form action="." method="POST">	
 
+				<div id="tourn-div">
+					Tournament: <select name="Tournament" required>
+						<option value="42">February Classic I</option>
+						<option value="13">February Classic II</option>
+						<option value="14">Winter Farewell</option>
+						<option value="20">Spring Welcome</option>
+						<option value="43">April Classic</option>
+						<option value="19">May Classic</option>
+						<option value="23">National</option>
+						<option value="25">Continental</option>
+						<option value="26">Canada One</option>
+						<option value="27">North American</option>
+						<option value="41">Pan American</option>
+						<option value="40">Champions' Welcome</option>
+						<option value="29">Masters</option>
+						<option value="31">Harvest Classic</option>
+						<option value="32">Oktoberfest</option>
+					</select>
+				</div>
+
+				<div id="date-div">
+					Date: <input type="date" name="date">
+				</div>
+
+				<div id="entry-div">
+					Riders: <input type="text" name="riders">	Horses: <input type="text" name="horses"> 
+				</div>
+
+				<div id="button">
+					<input type="submit" name="my-form" value="Send">
 				</div>
 			</form>
 		</div>
