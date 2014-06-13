@@ -1,6 +1,7 @@
 import mechanize
 import urllib
 import datetime 
+import os.path
 
 class PDF_Downloader():
 
@@ -11,7 +12,7 @@ class PDF_Downloader():
 
 	def gen_tournament_link( self, ID, date ):
 		base_link = 'http://www.sprucemeadows.com/tournaments/orderAndGo.jsp?id='
-		self.Tournament_link = base_link + str(ID) + date.strftime( '&d=%Y-%m-%d&ty=2013' )
+		self.Tournament_link = base_link + str(ID) + date.strftime( '&d=%Y-%m-%d&ty=%Y' )
 		return self.Tournament_link
 
 	def get_PDF_links(self):
@@ -32,9 +33,11 @@ class PDF_Downloader():
 	def download_orders(self): 
 		files = []
 		for i in self.links[ 'Order of Go' ]:
-			print 'downloading: ' + i 
+			#print 'downloading: ' + i 
 			fileName = self.filePath + i[61:-4] + '.pdf'
-			urllib.urlretrieve( i, fileName )
+			if not os.path.isfile( fileName ):
+				print 'File not found, downloading now'
+				urllib.urlretrieve( i, fileName )
 			files.append(fileName)
 		return files
 

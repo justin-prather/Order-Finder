@@ -8,7 +8,7 @@ import sys
 color2 = '#43464B'
 color= '#8A0707'
 window_title = 'Order Finder'
-default_fp = '~/Desktop'
+default_fp = '/Users/justinprather/Google Drive/Order Finder/Orders'
 
 def SetDate_Today():
     d=datetime.today()
@@ -42,8 +42,8 @@ def Execute_Search():
     # for name in get_items( RiderVar.get() ):
         # for order in files:
         Order = Order_Parser( order )
-        print Order.Parse_PDF()
-        print Order.Order_Content()
+        Order.Parse_PDF()
+        Order.Order_Content()
         for name in get_items( RiderVar.get() ):
             # print 'searching for: ' + name
             text = ''

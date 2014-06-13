@@ -125,7 +125,7 @@ class Order_Parser():
 			for i in range(1, 13):
 				try:
 					if any( num in self.info['Rider'][Len - i] for num in prefix ):
-						print self.info['Rider'][Len-1]
+						# print self.info['Rider'][Len-1]
 						self.info['Rider'].pop( Len - i )
 				except IndexError:
 					pass
