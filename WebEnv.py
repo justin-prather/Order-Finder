@@ -26,16 +26,20 @@ def my_form_post():
 
     Execute_Search( request.form )
 
-    return '<center>' + search_results.replace( '\n', '<br>') + '</center>'
+    if not search_results == '':
+    	return '<center> <h1>Search Results</h1>' + search_results.replace( '\n', '<br>') + '</center>'
+
+    else:
+    	return '<center> <h1>Search Results</h1> No orderes were found :( </center>'
 
 def Execute_Search( form ):
 	files = []
 
 	downloader = PDF_Downloader()
 
-	print downloader.gen_tournament_link( form['Tournament'], datetime.strptime( str(form['date']), '%Y-%m-%d').date() )
+	downloader.gen_tournament_link( form['Tournament'], datetime.strptime( str(form['date']), '%Y-%m-%d').date() )
 
-	downloader.filePath = '/Users/justinprather/Google Drive/Order Finder/Orders/'
+	downloader.filePath = '/home/justin/Documents/Order-Finder/Orders/'
 
 	downloader.get_PDF_links()
 
@@ -93,7 +97,7 @@ def Execute_Search( form ):
         	
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=80, debug=True)
+    app.run(host='0.0.0.0', port=80, debug=False)
 
 
 

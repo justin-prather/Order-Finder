@@ -46,7 +46,10 @@ class Order_Parser():
 
 		document = PDFDocument(parser)
 
-		document.initialize('')
+		try:
+			document.initialize('')
+		except:
+			pass
 
 		rsrcmgr = PDFResourceManager()
 
