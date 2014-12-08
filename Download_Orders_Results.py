@@ -36,7 +36,7 @@ class PDF_Downloader():
 			#print 'downloading: ' + i 
 			fileName = self.filePath + i[61:-4] + '.pdf'
 			if not os.path.isfile( fileName ):
-				print 'File not found, downloading now'
+				#print 'File not found, downloading now'
 				urllib.urlretrieve( i, fileName )
 			files.append(fileName)
 		return files
@@ -53,11 +53,11 @@ def main():
 
 	print downloader.get_PDF_links()
 
-	for i in downloader.links['Order of Go']:
+	for i in downloader.links['Results']:
 		print i
 
 	downloader.download_orders()
 
 
-# if __name__ == "__main__":
-# 	main()
+if __name__ == "__main__":
+	main()
